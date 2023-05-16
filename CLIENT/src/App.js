@@ -11,18 +11,27 @@ import { useEffect, useState } from 'react';
 
 function App() {
 
-  let [userPageSelection, setPageSelection] = useState('homePage')
+  let [userPageSelection, setUserPageSelection] = useState('homePage')
   
-
-
+  if(!['homeButton', 'searchButton', 'randomButton'].includes(userPageSelection)){
+    console.log('page selected by default')
+    return (
+      <div className="App">
+        <div className="navbar"> <NavBar userPageSelection={userPageSelection} setUserPageSelection={setUserPageSelection}/></div>
+            <HomePage userPageSelection={'homeButton'}/>
+        
+      </div>
+        
+        )
+  }
+  
   return (
     <div className="App">
-      <div className="navbar"> <NavBar selection={userPageSelection} updateSelection={setPageSelection}/></div>
-      {/* <div className="pageContent">  */}
-          <HomePage selection={userPageSelection}/>
-          <UserSearchPage selection={userPageSelection}/>
-          <RandomTweetPage selection={userPageSelection}/>
-      {/* </div> */}
+      <div className="navbar"> <NavBar userPageSelection={userPageSelection} setUserPageSelection={setUserPageSelection}/></div>
+          <HomePage userPageSelection={userPageSelection}/>
+          <UserSearchPage userPageSelection={userPageSelection}/>
+          <RandomTweetPage userPageSelection={userPageSelection}/>
+      
     </div>
       
       )

@@ -84,7 +84,7 @@ function UserSearchPage(props){
    
     )
     
-    return props.selection === 'searchButton'? userSearchBody : null
+    return props.userPageSelection === 'searchButton'? userSearchBody : null
 }
 
 export default UserSearchPage

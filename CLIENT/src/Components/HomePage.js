@@ -21,7 +21,7 @@ function HomePage(props){
         </h1>
     </div>
     )
-    return props.selection === 'homeButton'? page : null
+    return props.userPageSelection === 'homeButton'? page : null
 }
 
 export default HomePage

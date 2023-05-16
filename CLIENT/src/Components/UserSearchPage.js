@@ -4,6 +4,8 @@ import TweetCard from "./TweetCard";
 function UserSearchPage(props){
     let [searchBar, setSearchBar] = useState('')
     let requestType = 'user'
+    const [userIsSelected, setUserIsSelected] = useState(true);
+    const [topicIsSelected, setTopicIsSelected] = useState(false);
 
 
 
@@ -30,14 +32,14 @@ function UserSearchPage(props){
   }
 
     const retrieveUserTweets = (searchString)=>{ 
-        // const userName = document.getElementById('inputfield').value
+        
         const userName = searchString
         const url = `${props.server_URL}/usertweets?username=${userName}`
       
         getJSON(url)
     }
     const retrieveTopicTweets = (searchString)=>{
-        // const topic = document.getElementById('inputfield').value
+        
         const topic = searchString
         const url = `${props.server_URL}/topictweets?searchstring=${topic}`
         
@@ -57,12 +59,21 @@ function UserSearchPage(props){
           console.log(searchBar, ' CALLED!');
         }
       };
+      const handleClick = () => {
+        console.log(userIsSelected, topicIsSelected)
+        setUserIsSelected(!userIsSelected);
+        setTopicIsSelected(!topicIsSelected)
+      }
 
+    let userButtonClassName = `btn btn-secondary ${userIsSelected ? 'active' : ''}`;
+    let topicButtonClassName = `btn btn-secondary ${topicIsSelected ? 'active' : ''}`;
+
+    
     const leftContainer = 
     <div className="usersearchleftcontainer">
         <div className="searchtype">
-            <button type="button" className="btn btn-secondary" onClick={()=> requestType = 'user'}>USER</button>
-            <button type="button" className="btn btn-secondary" onClick={()=> requestType = 'topic'}>TOPIC</button>
+            <button type="button" className={userButtonClassName} onClick={handleClick}>USER</button>
+            <button type="button" className={topicButtonClassName} onClick={ handleClick}>TOPIC</button>
             <div className="searchInput">
                 <div className="inputdiv">
                     {/* <img src={require('../Images/at_image.png')} width="40px" alt='# or @ sign'></img> */}

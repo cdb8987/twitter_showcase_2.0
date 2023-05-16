@@ -47,7 +47,7 @@ function UserSearchPage(props){
     }
 
     const getTweets = (searchString)=> {
-        requestType === 'user'? retrieveUserTweets(searchString) : retrieveTopicTweets(searchString)
+        userIsSelected? retrieveUserTweets(searchString) : retrieveTopicTweets(searchString)
     }
 
     const handleKeyPress = (e) => {

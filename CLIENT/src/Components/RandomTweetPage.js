@@ -66,7 +66,7 @@ function RandomTweetPage(props){
   </div>
 
   
-
+  // const cardTableContainer = null
   const cardTableContainer = 
   <div className="cardTableContainer">
   <button onClick={()=>{getRandomTweet();console.log('updated random tweet')}}>GET RANDOM TWEET</button>

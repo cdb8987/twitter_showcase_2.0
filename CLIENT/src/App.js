@@ -10,8 +10,11 @@ import { useEffect, useState } from 'react';
 
 
 function App() {
+  let server_URL = 'http://127.0.0.1:5000'
+  // let server_URL = 'https://twitter-showcase-app-zuot.onrender.com'
 
   let [userPageSelection, setUserPageSelection] = useState('homePage')
+  // let [requestType, setRequestType] = useState('user')
   
   if(!['homeButton', 'searchButton', 'randomButton'].includes(userPageSelection)){
     console.log('page selected by default')
@@ -29,8 +32,8 @@ function App() {
     <div className="App">
       <div className="navbar"> <NavBar userPageSelection={userPageSelection} setUserPageSelection={setUserPageSelection}/></div>
           <HomePage userPageSelection={userPageSelection}/>
-          <UserSearchPage userPageSelection={userPageSelection}/>
-          <RandomTweetPage userPageSelection={userPageSelection}/>
+          <UserSearchPage userPageSelection={userPageSelection} server_URL={server_URL}/>
+          {/* <RandomTweetPage userPageSelection={userPageSelection} server_URL={server_URL}/> */}
       
     </div>
       

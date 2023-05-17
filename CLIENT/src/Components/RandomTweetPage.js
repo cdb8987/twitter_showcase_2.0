@@ -23,6 +23,7 @@ function RandomTweetPage(props){
     localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData));
   }
 
+  
 
   let [addUserInputValue, setAddUserInputValue] = useState('')
   let [removeUserInputValue, setRemoveUserInputValue] = useState('')
@@ -32,9 +33,10 @@ function RandomTweetPage(props){
     if (e.keyCode  === 13) {
       favoriteUsers.push(addUserInputValue)
       localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
-      localStorage.setItem('favoriteUsersData', JSON.stringify([favoriteUsersData]))
+      localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData))
     }
   };
+
 
   const handleRemoveUser = (e) => {
     if (e.keyCode  === 13) {
@@ -85,7 +87,7 @@ function RandomTweetPage(props){
           tweetArray.push(response[i])
           
         }
-        console.log(tweetArray)
+       
         
       })
       .catch(error => { console.log(`ERROR! ${error}`) })
@@ -104,7 +106,7 @@ function RandomTweetPage(props){
       retrieveUserTweets(favoriteUsers[i])
     }
   }
-  updatePage()
+  
   
   const getRandomTweet = ()=> {
     const tweetIndex = Math.floor(Math.random() * tweetArray.length)
@@ -125,16 +127,16 @@ function RandomTweetPage(props){
     )
   }
     
-
+  
 
   
   let userDataJSXArray = []
   for(let i=0; i < favoriteUsersData.length; i++){
     console.log('i1 is: ', i[1], 'i0 is: ', i[0])
-    console.log('favoriteusers.length: ', favoriteUsersData.length)
-    console.log(favoriteUsersData)
+    
     userDataJSXArray.push(randomTweetUserCard(favoriteUsersData[i][1], favoriteUsersData[i][0]))
   }
+  console.log('favoriteusers.length: ', favoriteUsersData.length)
   
   const userBar = 
   <div className="RandomTweetuserBar">
@@ -143,6 +145,10 @@ function RandomTweetPage(props){
   </div>
 
   
+
+
+
+
   // const cardTableContainer = null
   const cardTableContainer = 
   <div className="cardTableContainer">

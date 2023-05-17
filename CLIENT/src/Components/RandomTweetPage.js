@@ -24,10 +24,6 @@ function RandomTweetPage(props){
   }
 
 
-  
-
-  
-
   let [addUserInputValue, setAddUserInputValue] = useState('')
   let [removeUserInputValue, setRemoveUserInputValue] = useState('')
   
@@ -36,12 +32,14 @@ function RandomTweetPage(props){
     if (e.keyCode  === 13) {
       favoriteUsers.push(addUserInputValue)
       localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
+      localStorage.setItem('favoriteUsersData', JSON.stringify([favoriteUsersData]))
     }
   };
 
   const handleRemoveUser = (e) => {
     if (e.keyCode  === 13) {
       favoriteUsers = favoriteUsers.filter(function(e){return e !== removeUserInputValue})
+      
       localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
     }
   };
@@ -81,7 +79,8 @@ function RandomTweetPage(props){
       })
       .then(response => {
         // console.log(typeof(response), response)
-        favoriteUsersData.push((response[0].author_display_name, response[0].author_profile_pic))
+        favoriteUsersData.push([response[0].author_display_name, response[0].author_profile_pic])
+        localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData))
         for(let i=0;i<response.length; i++){
           tweetArray.push(response[i])
           
@@ -97,11 +96,11 @@ function RandomTweetPage(props){
     return getJSON(url, userName)
   }
   
-  
+
   
   const updatePage = ()=> {
     for(let i=0;i< favoriteUsers.length; i++){
-      console.log('forloopran')
+      console.log('forloopran for ', favoriteUsers[i])
       retrieveUserTweets(favoriteUsers[i])
     }
   }
@@ -109,7 +108,8 @@ function RandomTweetPage(props){
   
   const getRandomTweet = ()=> {
     const tweetIndex = Math.floor(Math.random() * tweetArray.length)
-    setSelectedTweet(tweetArray[tweetIndex])
+    setSelectedTweet(tweetArray[tweetIndex]);
+    updatePage()
     return tweetArray[tweetIndex]
   }
   

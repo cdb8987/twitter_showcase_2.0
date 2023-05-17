@@ -29,6 +29,7 @@ function RandomTweetPage(props){
 
   let [addUserInputValue, setAddUserInputValue] = useState('')
   let [removeUserInputValue, setRemoveUserInputValue] = useState('')
+  let [favoriteUsersDataSTATE, setFavoriteUsersDataSTATE] = useState(favoriteUsersData)
   
  
   const handleAddUser = (e) => {
@@ -91,7 +92,9 @@ function RandomTweetPage(props){
         }
 
         if(!profLinks.includes(response[0].author_profile_pic)){
-          favoriteUsersData.push([response[0].author_display_name , response[0].author_profile_pic])
+          favoriteUsersData.unshift([response[0].author_display_name , response[0].author_profile_pic])
+          setFavoriteUsersDataSTATE(favoriteUsersData)
+          
           localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData))
         }
 
@@ -148,7 +151,7 @@ function RandomTweetPage(props){
   for(let i=0; i < favoriteUsersData.length; i++){
     console.log('i1 is: ', i[1], 'i0 is: ', i[0])
     
-    userDataJSXArray.push(randomTweetUserCard(favoriteUsersData[i][1], favoriteUsersData[i][0]))
+    userDataJSXArray.push(randomTweetUserCard(favoriteUsersDataSTATE[i][1], favoriteUsersDataSTATE[i][0]))
   }
   console.log('favoriteusers.length: ', favoriteUsersData.length)
   

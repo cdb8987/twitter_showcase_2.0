@@ -19,11 +19,13 @@ function RandomTweetPage(props){
     favoriteUsersData = JSON.parse(localStorage.getItem('favoriteUsersData'))
   }
   else{
-    favoriteUsersData = [["Michael Saylor", "https://pbs.twimg.com/profile_images/1485632175932383235/8t0DGo6V_normal.jpg"],["Elon Musk", "https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_normal.jpg"],["Saifedean Ammous", "https://pbs.twimg.com/profile_images/1362635264158552067/CSsOKrBd_normal.jpg"],["Lyn Alden", "https://pbs.twimg.com/profile_images/1521181379677073414/bm4LcJTr_normal.jpg"],["Dylan LeClair 🟠", "https://pbs.twimg.com/profile_images/1635306935078584322/z8C5RB6O_normal.jpg"]];
+    favoriteUsersData = [["Michael Saylor⚡️", "https://pbs.twimg.com/profile_images/1485632175932383235/8t0DGo6V_normal.jpg"],["Elon Musk", "https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_normal.jpg"],["Saifedean Ammous", "https://pbs.twimg.com/profile_images/1362635264158552067/CSsOKrBd_normal.jpg"],["Lyn Alden", "https://pbs.twimg.com/profile_images/1521181379677073414/bm4LcJTr_normal.jpg"],["Dylan LeClair 🟠", "https://pbs.twimg.com/profile_images/1635306935078584322/z8C5RB6O_normal.jpg"]];
     localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData));
   }
 
   
+  
+
 
   let [addUserInputValue, setAddUserInputValue] = useState('')
   let [removeUserInputValue, setRemoveUserInputValue] = useState('')
@@ -34,15 +36,17 @@ function RandomTweetPage(props){
       favoriteUsers.push(addUserInputValue)
       localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
       localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData))
+      getRandomTweet()
     }
   };
 
-
+ 
   const handleRemoveUser = (e) => {
     if (e.keyCode  === 13) {
       favoriteUsers = favoriteUsers.filter(function(e){return e !== removeUserInputValue})
       
       localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
+      getRandomTweet()
     }
   };
 
@@ -80,9 +84,18 @@ function RandomTweetPage(props){
         return response.json()
       })
       .then(response => {
-        // console.log(typeof(response), response)
-        favoriteUsersData.push([response[0].author_display_name, response[0].author_profile_pic])
-        localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData))
+
+        let profLinks =[];
+        for(let i=0; i < favoriteUsersData.length; i++ ){
+          profLinks.push(favoriteUsersData[i][1])
+        }
+
+        if(!profLinks.includes(response[0].author_profile_pic)){
+          favoriteUsersData.push([response[0].author_display_name , response[0].author_profile_pic])
+          localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData))
+        }
+
+         
         for(let i=0;i<response.length; i++){
           tweetArray.push(response[i])
           
@@ -95,6 +108,7 @@ function RandomTweetPage(props){
 
   const retrieveUserTweets = (userName)=>{ 
     const url = `https://twitter-showcase-app-zuot.onrender.com//usertweets?username=${userName}`
+    // favoriteUsersData = []
     return getJSON(url, userName)
   }
   
@@ -152,7 +166,7 @@ function RandomTweetPage(props){
   // const cardTableContainer = null
   const cardTableContainer = 
   <div className="cardTableContainer">
-  <button onClick={()=>{getRandomTweet();console.log('updated random tweet')}}>GET RANDOM TWEET</button>
+  <button onClick={()=>{getRandomTweet();console.log('updated random tweet')}}>UPDATE FEED</button>
   <div className="cardtableinnercontainer"><TweetCard tweet={selectedTweet}/></div>
   </div>
 

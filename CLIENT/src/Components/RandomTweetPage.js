@@ -19,7 +19,7 @@ function RandomTweetPage(props){
     favoriteUsersData = JSON.parse(localStorage.getItem('favoriteUsersData'))
   }
   else{
-    favoriteUsersData = [["Michael Saylor⚡️", "https://pbs.twimg.com/profile_images/1485632175932383235/8t0DGo6V_normal.jpg"],["Elon Musk", "https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_normal.jpg"],["Saifedean Ammous", "https://pbs.twimg.com/profile_images/1362635264158552067/CSsOKrBd_normal.jpg"],["Lyn Alden", "https://pbs.twimg.com/profile_images/1521181379677073414/bm4LcJTr_normal.jpg"],["Dylan LeClair 🟠", "https://pbs.twimg.com/profile_images/1635306935078584322/z8C5RB6O_normal.jpg"]];
+    favoriteUsersData = [["Michael Saylor⚡️", "https://pbs.twimg.com/profile_images/1485632175932383235/8t0DGo6V_normal.jpg", "saylor"],["Elon Musk", "https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_normal.jpg", "elonmusk"],["Saifedean Ammous", "https://pbs.twimg.com/profile_images/1362635264158552067/CSsOKrBd_normal.jpg", "saifedean"],["Lyn Alden", "https://pbs.twimg.com/profile_images/1521181379677073414/bm4LcJTr_normal.jpg", "lynaldencontact"],["Dylan LeClair 🟠", "https://pbs.twimg.com/profile_images/1635306935078584322/z8C5RB6O_normal.jpg", "dylanleclair_"]];
     localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData));
   }
 
@@ -42,13 +42,30 @@ function RandomTweetPage(props){
   };
 
  
-  const handleRemoveUser = (e) => {
-    if (e.keyCode  === 13) {
-      favoriteUsers = favoriteUsers.filter(function(e){return e !== removeUserInputValue})
-      
-      localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
-      getRandomTweet()
+  const handleRemoveUser = (username) => {
+    
+    console.log('handleRemoveUser clicked and we will remove', username)
+    favoriteUsers = favoriteUsers.filter(function(e){return e !== username})
+    localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
+    for(let i=0; i < favoriteUsersData.length; i++){
+      console.log(favoriteUsersData[i][2], i)
+      if(favoriteUsersData[i][2] === username){
+        let toRemove = favoriteUsersData[i]
+        console.log('to remove: ', toRemove)
+        favoriteUsersData = favoriteUsersData.filter(function(e){return e !== toRemove});
+        localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData));
+        setFavoriteUsersDataSTATE(favoriteUsersData);
+        getRandomTweet()
+      }
     }
+    
+    
+  //   if (e.keyCode  === 13) {
+  //     favoriteUsers = favoriteUsers.filter(function(e){return e !== removeUserInputValue})
+      
+  //     localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
+  //     getRandomTweet()
+  //   }
   };
 
   const addUserInputField = (
@@ -92,7 +109,7 @@ function RandomTweetPage(props){
         }
 
         if(!profLinks.includes(response[0].author_profile_pic)){
-          favoriteUsersData.unshift([response[0].author_display_name , response[0].author_profile_pic])
+          favoriteUsersData.unshift([response[0].author_display_name , response[0].author_profile_pic, userName])
           setFavoriteUsersDataSTATE(favoriteUsersData)
           
           localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData))
@@ -134,12 +151,13 @@ function RandomTweetPage(props){
   
 
   
-  const randomTweetUserCard = (profilePicURL, Username)=>{
+  const randomTweetUserCard = (profilePicURL, UserFullname, username)=>{
     
     return (
     <div className="RandomTweetUserCard">
       <img src={profilePicURL} alt="user" width={'100dw'} style={{'borderRadius': '50%', float: 'left', MarginLeft: '10px', MarginTop: '10px'}}></img>
-      <strong>{Username}</strong> 
+      <strong>{UserFullname}</strong>
+      <button value={username} onClick={()=> handleRemoveUser(username)}>X</button> 
     </div>
     )
   }
@@ -151,7 +169,7 @@ function RandomTweetPage(props){
   for(let i=0; i < favoriteUsersData.length; i++){
     console.log('i1 is: ', i[1], 'i0 is: ', i[0])
     
-    userDataJSXArray.push(randomTweetUserCard(favoriteUsersDataSTATE[i][1], favoriteUsersDataSTATE[i][0]))
+    userDataJSXArray.push(randomTweetUserCard(favoriteUsersDataSTATE[i][1], favoriteUsersDataSTATE[i][0], favoriteUsersDataSTATE[i][2]))
   }
   console.log('favoriteusers.length: ', favoriteUsersData.length)
   

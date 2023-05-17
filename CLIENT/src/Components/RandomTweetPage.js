@@ -12,8 +12,22 @@ function RandomTweetPage(props){
   else{
     favoriteUsers = ['lynaldencontact', 'dylanleclair_', 'saylor', 'saifedean', 'elonmusk'];
     localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers));
-    
-}
+  }
+
+  let favoriteUsersData=[]
+  if(localStorage.getItem('favoriteUsersData')){
+    favoriteUsersData = JSON.parse(localStorage.getItem('favoriteUsersData'))
+  }
+  else{
+    favoriteUsersData = [["Michael Saylor", "https://pbs.twimg.com/profile_images/1485632175932383235/8t0DGo6V_normal.jpg"],["Elon Musk", "https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_normal.jpg"],["Saifedean Ammous", "https://pbs.twimg.com/profile_images/1362635264158552067/CSsOKrBd_normal.jpg"],["Lyn Alden", "https://pbs.twimg.com/profile_images/1521181379677073414/bm4LcJTr_normal.jpg"],["Dylan LeClair 🟠", "https://pbs.twimg.com/profile_images/1635306935078584322/z8C5RB6O_normal.jpg"]];
+    localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData));
+  }
+
+
+  
+
+  
+
   let [addUserInputValue, setAddUserInputValue] = useState('')
   let [removeUserInputValue, setRemoveUserInputValue] = useState('')
   
@@ -58,7 +72,7 @@ function RandomTweetPage(props){
   let tweetArray = dummyData
   
   
-  const getJSON = (url)=> {console.log('getJSON ran'); return fetch(url)
+  const getJSON = (url, userName)=> {console.log('getJSON ran'); return fetch(url)
       .then(response => {
         if (!response.ok) {
           throw new Error('CUSTOM ERROR - JSON/API Request failed')
@@ -67,9 +81,10 @@ function RandomTweetPage(props){
       })
       .then(response => {
         // console.log(typeof(response), response)
-        
+        favoriteUsersData.push((response[0].author_display_name, response[0].author_profile_pic))
         for(let i=0;i<response.length; i++){
           tweetArray.push(response[i])
+          
         }
         console.log(tweetArray)
         
@@ -79,14 +94,18 @@ function RandomTweetPage(props){
 
   const retrieveUserTweets = (userName)=>{ 
     const url = `https://twitter-showcase-app-zuot.onrender.com//usertweets?username=${userName}`
-    return getJSON(url)
+    return getJSON(url, userName)
   }
   
   
-  for(let i=0;i< favoriteUsers.length; i++){
-    console.log('forloopran')
-    retrieveUserTweets(favoriteUsers[i])
+  
+  const updatePage = ()=> {
+    for(let i=0;i< favoriteUsers.length; i++){
+      console.log('forloopran')
+      retrieveUserTweets(favoriteUsers[i])
+    }
   }
+  updatePage()
   
   const getRandomTweet = ()=> {
     const tweetIndex = Math.floor(Math.random() * tweetArray.length)
@@ -108,9 +127,19 @@ function RandomTweetPage(props){
     
 
 
+  
+  let userDataJSXArray = []
+  for(let i=0; i < favoriteUsersData.length; i++){
+    console.log('i1 is: ', i[1], 'i0 is: ', i[0])
+    console.log('favoriteusers.length: ', favoriteUsersData.length)
+    console.log(favoriteUsersData)
+    userDataJSXArray.push(randomTweetUserCard(favoriteUsersData[i][1], favoriteUsersData[i][0]))
+  }
+  
   const userBar = 
   <div className="RandomTweetuserBar">
-    {[addUserInputField, removeUserInputField, randomTweetUserCard('https://pbs.twimg.com/profile_images/1362635264158552067/CSsOKrBd_normal.jpg', 'Saifedean Ammous'), randomTweetUserCard('https://pbs.twimg.com/profile_images/1635306935078584322/z8C5RB6O_normal.jpg', 'Dylan LeClair'), randomTweetUserCard('https://pbs.twimg.com/profile_images/1521181379677073414/bm4LcJTr_normal.jpg', 'Lyn Alden'), randomTweetUserCard('https://pbs.twimg.com/profile_images/1485632175932383235/8t0DGo6V_normal.jpg', 'Michael Saylor'), randomTweetUserCard('https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_normal.jpg', 'Elon Musk')]}
+    {[addUserInputField, removeUserInputField, userDataJSXArray]}
+    {/* {userDataJSXArray} */}
   </div>
 
   

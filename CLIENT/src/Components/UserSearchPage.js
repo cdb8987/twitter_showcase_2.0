@@ -53,16 +53,13 @@ function UserSearchPage(props){
     const handleKeyPress = (e) => {
         if (e.keyCode  === 13) {
             getTweets(searchBar)
-          
-            // Call your function or perform the desired action here
-          // For example, you can console.log the input value
-          console.log(searchBar, ' CALLED!');
         }
       };
       const handleClick = () => {
         console.log(userIsSelected, topicIsSelected)
         setUserIsSelected(!userIsSelected);
-        setTopicIsSelected(!topicIsSelected)
+        setTopicIsSelected(!topicIsSelected);
+        sessionStorage.setItem('buttonselectstatus',   `userisselected ${userIsSelected},    topicIsSelected ${topicIsSelected}`)
       }
 
     let userButtonClassName = `btn btn-secondary ${userIsSelected ? 'active' : ''}`;

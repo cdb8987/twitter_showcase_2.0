@@ -1,0 +1,3 @@
+[console_scripts]
+pip-tree = pip_tree.cli:main
+

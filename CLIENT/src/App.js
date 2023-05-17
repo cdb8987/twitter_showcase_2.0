@@ -33,7 +33,7 @@ function App() {
       <div className="navbar"> <NavBar userPageSelection={userPageSelection} setUserPageSelection={setUserPageSelection}/></div>
           <HomePage userPageSelection={userPageSelection}/>
           <UserSearchPage userPageSelection={userPageSelection} server_URL={server_URL}/>
-          {/* <RandomTweetPage userPageSelection={userPageSelection} server_URL={server_URL}/> */}
+          <RandomTweetPage userPageSelection={userPageSelection} server_URL={server_URL}/>
       
     </div>
       

@@ -3,12 +3,60 @@ import { useState } from "react"
 
 
 function RandomTweetPage(props){
+
+  let favoriteUsers;
+  if(localStorage.getItem('favoriteUsers')){
+    favoriteUsers = JSON.parse(localStorage.getItem('favoriteUsers'))
+    
+  }
+  else{
+    favoriteUsers = ['lynaldencontact', 'dylanleclair_', 'saylor', 'saifedean', 'elonmusk'];
+    localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers));
+    
+}
+  let [addUserInputValue, setAddUserInputValue] = useState('')
+  let [removeUserInputValue, setRemoveUserInputValue] = useState('')
+  
+ 
+  const handleAddUser = (e) => {
+    if (e.keyCode  === 13) {
+      favoriteUsers.push(addUserInputValue)
+      localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
+    }
+  };
+
+  const handleRemoveUser = (e) => {
+    if (e.keyCode  === 13) {
+      favoriteUsers = favoriteUsers.filter(function(e){return e !== removeUserInputValue})
+      localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
+    }
+  };
+
+  const addUserInputField = (
+    <>
+    <p>ADD USER</p>
+    <input type="text" onChange={e=>setAddUserInputValue(e.target.value)} onKeyDown={handleAddUser}>
+    </input>
+    </>
+  )
+  const removeUserInputField = (
+    
+    <>
+    <p>REMOVE USER</p>
+    <input type="text" onChange={e=>setRemoveUserInputValue(e.target.value)} onKeyDown={handleRemoveUser}>
+    </input>
+    </>
+  )
+
+
+
+  
   const dummyData = [{author_display_name: "Elon Musk", author_id:"44196397", author_profile_pic: "https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_normal.jpg", author_user_name: "elonmusk", created_at: "2023-03-24T09:38:38.000Z", like_count: 305478, media_key: "3_1639200032409747457", media_url: "https://pbs.twimg.com/media/Fr-bvp-XgAE20K3.jpg", quote_count: 2556, reply_count: 17259, retweet_count: 30327, tweet_id: "1639200036578885632", tweet_text: "I’m sure it will be fine https://t.co/JWsq62Qkru"}]
   
   let [selectedTweet, setSelectedTweet] = useState(dummyData[0])
 
   let tweetArray = dummyData
-  const favoriteUsers = ['lynaldencontact', 'dylanleclair_', 'saylor', 'saifedean', 'elonmusk']
+  
   
   const getJSON = (url)=> {console.log('getJSON ran'); return fetch(url)
       .then(response => {
@@ -62,7 +110,7 @@ function RandomTweetPage(props){
 
   const userBar = 
   <div className="RandomTweetuserBar">
-    {[randomTweetUserCard('https://pbs.twimg.com/profile_images/1362635264158552067/CSsOKrBd_normal.jpg', 'Saifedean Ammous'), randomTweetUserCard('https://pbs.twimg.com/profile_images/1635306935078584322/z8C5RB6O_normal.jpg', 'Dylan LeClair'), randomTweetUserCard('https://pbs.twimg.com/profile_images/1521181379677073414/bm4LcJTr_normal.jpg', 'Lyn Alden'), randomTweetUserCard('https://pbs.twimg.com/profile_images/1485632175932383235/8t0DGo6V_normal.jpg', 'Michael Saylor'), randomTweetUserCard('https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_normal.jpg', 'Elon Musk')]}
+    {[addUserInputField, removeUserInputField, randomTweetUserCard('https://pbs.twimg.com/profile_images/1362635264158552067/CSsOKrBd_normal.jpg', 'Saifedean Ammous'), randomTweetUserCard('https://pbs.twimg.com/profile_images/1635306935078584322/z8C5RB6O_normal.jpg', 'Dylan LeClair'), randomTweetUserCard('https://pbs.twimg.com/profile_images/1521181379677073414/bm4LcJTr_normal.jpg', 'Lyn Alden'), randomTweetUserCard('https://pbs.twimg.com/profile_images/1485632175932383235/8t0DGo6V_normal.jpg', 'Michael Saylor'), randomTweetUserCard('https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_normal.jpg', 'Elon Musk')]}
   </div>
 
   

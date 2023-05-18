@@ -24,7 +24,6 @@ function RandomTweetPage(props){
 
   let [addUserInputValue, setAddUserInputValue] = useState('')
   let [favoriteUsersDataSTATE, setFavoriteUsersDataSTATE] = useState(favoriteUsersData)
-  let [tweetArray, setTweetArray] = useState([])
   let [tweetFeed, setTweetFeed] = useState([])
 
   
@@ -93,9 +92,9 @@ function RandomTweetPage(props){
   </div>
 
   let tweetCards=[];
-          for(let i=0; i< tweetArray.length; i++){
+          for(let i=0; i< tweetFeed.length; i++){
               let tweetJSX = (
-                  <div className="rightContainerOneTweet"><TweetCard tweet={tweetArray[i]}/></div>
+                  <div className="rightContainerOneTweet"><TweetCard tweet={tweetFeed[i]}/></div>
               )
               tweetCards.push(tweetJSX)
           }
@@ -129,7 +128,6 @@ function RandomTweetPage(props){
         }
         let innerArray = []
         for(let i=0;i<response.length; i++){
-          tweetArray.push(response[i])
           innerArray.push(response[i]) 
         }
         console.log('innerarray', innerArray, 'returned')
@@ -139,9 +137,12 @@ function RandomTweetPage(props){
       .catch(error => { console.log(`ERROR! ${error}`) })
   }
 
-  const retrieveUserTweets = (userName)=>{ 
+  const retrieveUserTweets = async (userName)=>{ 
     const url = `https://twitter-showcase-app-zuot.onrender.com//usertweets?username=${userName}`
-    return getJSON(url, userName)
+    let data = await getJSON(url, userName)
+    console.log('retreiveusertweets data is:' , data)
+    
+    return data
   }
   
   const updatePage = async ()=> {
@@ -149,18 +150,18 @@ function RandomTweetPage(props){
     //   console.log('forloopran for ', favoriteUsers[i])
     //   retrieveUserTweets(favoriteUsers[i])
     // }
-    let arr = Array.from({ length: favoriteUsers.length + 1 }, (_, index) => index);
+    let arr = Array.from({ length: favoriteUsers.length }, (_, index) => index);
     console.log('ARR is: ', arr)
-    let updatedTweets = await Promise.all(arr.map(index=> retrieveUserTweets(favoriteUsers[index])))
+    let updatedTweets = await Promise.all(arr.map(async (index)=> {console.log(favoriteUsers[index]); console.log('inside map function data is: ',await retrieveUserTweets(favoriteUsers[index])); return await retrieveUserTweets(favoriteUsers[index])}))
     setTweetFeed(updatedTweets)
+    console.log('updatedTweets is: ', updatedTweets)
     console.log('TWEET FEED IS', tweetFeed )
   }
 
- 
 
  
   return props.userPageSelection === 'randomButton'? <div className="randomTweetPage"><div className="randomTweetPageinnercontainer">{[userBar, cardTableContainer]}</div></div> : null
-
+  // cardTableContainer
 }
 
 export default RandomTweetPage

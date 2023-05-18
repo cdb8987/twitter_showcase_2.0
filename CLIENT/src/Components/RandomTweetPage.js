@@ -3,7 +3,6 @@ import { useState } from "react"
 
 
 function RandomTweetPage(props){
-
   let favoriteUsers;
   if(localStorage.getItem('favoriteUsers')){
     favoriteUsers = JSON.parse(localStorage.getItem('favoriteUsers'))
@@ -23,25 +22,21 @@ function RandomTweetPage(props){
     localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData));
   }
 
-  
-  
-
-
   let [addUserInputValue, setAddUserInputValue] = useState('')
-  let [removeUserInputValue, setRemoveUserInputValue] = useState('')
   let [favoriteUsersDataSTATE, setFavoriteUsersDataSTATE] = useState(favoriteUsersData)
+  let [tweetArray, setTweetArray] = useState([])
+  let [tweetFeed, setTweetFeed] = useState([])
+
   
- 
   const handleAddUser = (e) => {
     if (e.keyCode  === 13) {
       favoriteUsers.push(addUserInputValue)
       localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
       localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData))
-      getRandomTweet()
+      updatePage()
     }
   };
 
- 
   const handleRemoveUser = (username) => {
     
     console.log('handleRemoveUser clicked and we will remove', username)
@@ -55,19 +50,10 @@ function RandomTweetPage(props){
         favoriteUsersData = favoriteUsersData.filter(function(e){return e !== toRemove});
         localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData));
         setFavoriteUsersDataSTATE(favoriteUsersData);
-        getRandomTweet()
+        updatePage()
       }
     }
-    
-    
-  //   if (e.keyCode  === 13) {
-  //     favoriteUsers = favoriteUsers.filter(function(e){return e !== removeUserInputValue})
-      
-  //     localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
-  //     getRandomTweet()
-  //   }
   };
-
   const addUserInputField = (
     <>
     <p>ADD USER</p>
@@ -75,82 +61,9 @@ function RandomTweetPage(props){
     </input>
     </>
   )
-  const removeUserInputField = (
-    
-    <>
-    <p>REMOVE USER</p>
-    <input type="text" onChange={e=>setRemoveUserInputValue(e.target.value)} onKeyDown={handleRemoveUser}>
-    </input>
-    </>
-  )
-
-
-
-  
-  const dummyData = [{author_display_name: "Elon Musk", author_id:"44196397", author_profile_pic: "https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_normal.jpg", author_user_name: "elonmusk", created_at: "2023-03-24T09:38:38.000Z", like_count: 305478, media_key: "3_1639200032409747457", media_url: "https://pbs.twimg.com/media/Fr-bvp-XgAE20K3.jpg", quote_count: 2556, reply_count: 17259, retweet_count: 30327, tweet_id: "1639200036578885632", tweet_text: "I’m sure it will be fine https://t.co/JWsq62Qkru"}]
-  
-  let [selectedTweet, setSelectedTweet] = useState(dummyData[0])
-
-  let tweetArray = dummyData
   
   
-  const getJSON = (url, userName)=> {console.log('getJSON ran'); return fetch(url)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('CUSTOM ERROR - JSON/API Request failed')
-        };
-        return response.json()
-      })
-      .then(response => {
 
-        let profLinks =[];
-        for(let i=0; i < favoriteUsersData.length; i++ ){
-          profLinks.push(favoriteUsersData[i][1])
-        }
-
-        if(!profLinks.includes(response[0].author_profile_pic)){
-          favoriteUsersData.unshift([response[0].author_display_name , response[0].author_profile_pic, userName])
-          setFavoriteUsersDataSTATE(favoriteUsersData)
-          
-          localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData))
-        }
-
-         
-        for(let i=0;i<response.length; i++){
-          tweetArray.push(response[i])
-          
-        }
-       
-        
-      })
-      .catch(error => { console.log(`ERROR! ${error}`) })
-  }
-
-  const retrieveUserTweets = (userName)=>{ 
-    const url = `https://twitter-showcase-app-zuot.onrender.com//usertweets?username=${userName}`
-    // favoriteUsersData = []
-    return getJSON(url, userName)
-  }
-  
-
-  
-  const updatePage = ()=> {
-    for(let i=0;i< favoriteUsers.length; i++){
-      console.log('forloopran for ', favoriteUsers[i])
-      retrieveUserTweets(favoriteUsers[i])
-    }
-  }
-  
-  
-  const getRandomTweet = ()=> {
-    const tweetIndex = Math.floor(Math.random() * tweetArray.length)
-    setSelectedTweet(tweetArray[tweetIndex]);
-    updatePage()
-    return tweetArray[tweetIndex]
-  }
-  
-
-  
   const randomTweetUserCard = (profilePicURL, UserFullname, username)=>{
     
     return (
@@ -175,23 +88,75 @@ function RandomTweetPage(props){
   
   const userBar = 
   <div className="RandomTweetuserBar">
-    {[addUserInputField, removeUserInputField, userDataJSXArray]}
+    {[addUserInputField, userDataJSXArray]}
     {/* {userDataJSXArray} */}
   </div>
 
-  
+  let tweetCards=[];
+          for(let i=0; i< tweetArray.length; i++){
+              let tweetJSX = (
+                  <div className="rightContainerOneTweet"><TweetCard tweet={tweetArray[i]}/></div>
+              )
+              tweetCards.push(tweetJSX)
+          }
 
-
-
-
-  // const cardTableContainer = null
-  const cardTableContainer = 
+  const cardTableContainer = (
   <div className="cardTableContainer">
-  <button onClick={()=>{getRandomTweet();console.log('updated random tweet')}}>UPDATE FEED</button>
-  <div className="cardtableinnercontainer"><TweetCard tweet={selectedTweet}/></div>
+  <div className="cardtableinnercontainer">{tweetCards}</div>
   </div>
+  )
 
+  const getJSON = (url, userName)=> {console.log('getJSON ran'); return fetch(url)
+      .then(response => {
+        console.log("INSIDE getJSON url and username: ", url, userName)
+        if (!response.ok) {
+          throw new Error('CUSTOM ERROR - JSON/API Request failed')
+        };
+        return response.json()
+      })
+      .then(response => {
 
+        let profLinks =[];
+        for(let i=0; i < favoriteUsersData.length; i++ ){
+          profLinks.push(favoriteUsersData[i][1])
+        }
+
+        if(!profLinks.includes(response[0].author_profile_pic)){
+          favoriteUsersData.unshift([response[0].author_display_name , response[0].author_profile_pic, userName])
+          setFavoriteUsersDataSTATE(favoriteUsersData)
+
+          localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData))
+        }
+        let innerArray = []
+        for(let i=0;i<response.length; i++){
+          tweetArray.push(response[i])
+          innerArray.push(response[i]) 
+        }
+        console.log('innerarray', innerArray, 'returned')
+        return innerArray
+        
+      })
+      .catch(error => { console.log(`ERROR! ${error}`) })
+  }
+
+  const retrieveUserTweets = (userName)=>{ 
+    const url = `https://twitter-showcase-app-zuot.onrender.com//usertweets?username=${userName}`
+    return getJSON(url, userName)
+  }
+  
+  const updatePage = async ()=> {
+    // for(let i=0;i< favoriteUsers.length; i++){
+    //   console.log('forloopran for ', favoriteUsers[i])
+    //   retrieveUserTweets(favoriteUsers[i])
+    // }
+    let arr = Array.from({ length: favoriteUsers.length + 1 }, (_, index) => index);
+    console.log('ARR is: ', arr)
+    let updatedTweets = await Promise.all(arr.map(index=> retrieveUserTweets(favoriteUsers[index])))
+    setTweetFeed(updatedTweets)
+    console.log('TWEET FEED IS', tweetFeed )
+  }
+
+ 
 
  
   return props.userPageSelection === 'randomButton'? <div className="randomTweetPage"><div className="randomTweetPageinnercontainer">{[userBar, cardTableContainer]}</div></div> : null

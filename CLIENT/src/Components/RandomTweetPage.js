@@ -38,14 +38,13 @@ function RandomTweetPage(props){
 
   const handleRemoveUser = (username) => {
     
-    console.log('handleRemoveUser clicked and we will remove', username)
     favoriteUsers = favoriteUsers.filter(function(e){return e !== username})
     localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
     for(let i=0; i < favoriteUsersData.length; i++){
-      console.log(favoriteUsersData[i][2], i)
+      // console.log(favoriteUsersData[i][2], i)
       if(favoriteUsersData[i][2] === username){
         let toRemove = favoriteUsersData[i]
-        console.log('to remove: ', toRemove)
+        // console.log('to remove: ', toRemove)
         favoriteUsersData = favoriteUsersData.filter(function(e){return e !== toRemove});
         localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData));
         setFavoriteUsersDataSTATE(favoriteUsersData);
@@ -83,7 +82,7 @@ function RandomTweetPage(props){
     
     userDataJSXArray.push(randomTweetUserCard(favoriteUsersDataSTATE[i][1], favoriteUsersDataSTATE[i][0], favoriteUsersDataSTATE[i][2]))
   }
-  console.log('favoriteusers.length: ', favoriteUsersData.length)
+  // console.log('favoriteusers.length: ', favoriteUsersData.length)
   
   const userBar = 
   <div className="RandomTweetuserBar">
@@ -107,7 +106,7 @@ function RandomTweetPage(props){
 
   const getJSON = (url, userName)=> {console.log('getJSON ran'); return fetch(url)
       .then(response => {
-        console.log("INSIDE getJSON url and username: ", url, userName)
+        // console.log("INSIDE getJSON url and username: ", url, userName)
         if (!response.ok) {
           throw new Error('CUSTOM ERROR - JSON/API Request failed')
         };
@@ -130,7 +129,7 @@ function RandomTweetPage(props){
         for(let i=0;i<response.length; i++){
           innerArray.push(response[i]) 
         }
-        console.log('innerarray', innerArray, 'returned')
+        // console.log('innerarray', innerArray, 'returned')
         return innerArray
         
       })
@@ -140,7 +139,7 @@ function RandomTweetPage(props){
   const retrieveUserTweets = async (userName)=>{ 
     const url = `https://twitter-showcase-app-zuot.onrender.com//usertweets?username=${userName}`
     let data = await getJSON(url, userName)
-    console.log('retreiveusertweets data is:' , data)
+
     
     return data
   }
@@ -151,11 +150,12 @@ function RandomTweetPage(props){
     //   retrieveUserTweets(favoriteUsers[i])
     // }
     let arr = Array.from({ length: favoriteUsers.length }, (_, index) => index);
-    console.log('ARR is: ', arr)
-    let updatedTweets = await Promise.all(arr.map(async (index)=> {console.log(favoriteUsers[index]); console.log('inside map function data is: ',await retrieveUserTweets(favoriteUsers[index])); return await retrieveUserTweets(favoriteUsers[index])}))
-    setTweetFeed(updatedTweets)
-    console.log('updatedTweets is: ', updatedTweets)
-    console.log('TWEET FEED IS', tweetFeed )
+    let updatedTweets = await Promise.all(arr.map(async (index)=> {console.log(favoriteUsers[index]); console.log('inside map function data is: ',await retrieveUserTweets(favoriteUsers[index])); return await retrieveUserTweets(favoriteUsers[index])}));
+    const mergedArray = updatedTweets.reduce((acc, curr) => acc.concat(curr), []);
+    const sortedArray = mergedArray.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+    setTweetFeed(sortedArray)
+    
   }
 
 

@@ -74,7 +74,7 @@ function UserSearchPage(props){
             <div className="searchInput">
                 <div className="inputdiv">
                     {/* <img src={require('../Images/at_image.png')} width="40px" alt='# or @ sign'></img> */}
-                    <input onChange={(e)=>{setSearchBar(e.target.value); console.log(searchBar)}} onKeyDown={handleKeyPress} type="text" id="inputfield"/>
+                    <input className="form-control-sm" onChange={(e)=>{setSearchBar(e.target.value); console.log(searchBar)}} onKeyDown={handleKeyPress} type="text" id="inputfield"/>
                 </div>
                 <p style={{color: 'red'}}>{missingUserErrorMessage}</p>
             </div>

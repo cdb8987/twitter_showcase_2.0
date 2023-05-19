@@ -140,19 +140,21 @@
   background-size:100%
 }
 
-.RandomTweetuserbar{
+.RandomTweetuserBar{
   height: 70vh;
   width:  20vw;
-  border-color: black;
+  /* border-color: black;
   border: 1px solid;
-  border-radius: 25px;
+  border-radius: 25px; */
+  overflow: auto;
 }
 .RandomTweetUserCard{
-  height: 14vh;
-  width:  20vw;
+  height: auto;
+  width:  100%;
   border-color: black;
   border: 1px solid;
   border-radius: 25px;
+  display: flex
   
   
 }

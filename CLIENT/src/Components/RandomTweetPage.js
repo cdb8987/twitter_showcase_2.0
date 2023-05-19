@@ -21,6 +21,7 @@ function RandomTweetPage(props){
     favoriteUsersData = [["Michael Saylor⚡️", "https://pbs.twimg.com/profile_images/1485632175932383235/8t0DGo6V_normal.jpg", "saylor"],["Elon Musk", "https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_normal.jpg", "elonmusk"],["Saifedean Ammous", "https://pbs.twimg.com/profile_images/1362635264158552067/CSsOKrBd_normal.jpg", "saifedean"],["Lyn Alden", "https://pbs.twimg.com/profile_images/1521181379677073414/bm4LcJTr_normal.jpg", "lynaldencontact"],["Dylan LeClair 🟠", "https://pbs.twimg.com/profile_images/1635306935078584322/z8C5RB6O_normal.jpg", "dylanleclair_"]];
     localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData));
   }
+  
 
   let [addUserInputValue, setAddUserInputValue] = useState('')
   let [favoriteUsersDataSTATE, setFavoriteUsersDataSTATE] = useState(favoriteUsersData)
@@ -55,20 +56,28 @@ function RandomTweetPage(props){
   const addUserInputField = (
     <>
     <p>ADD USER</p>
-    <input type="text" onChange={e=>setAddUserInputValue(e.target.value)} onKeyDown={handleAddUser}>
+    <input className="form-control" type="text" onChange={e=>setAddUserInputValue(e.target.value)} onKeyDown={handleAddUser}>
     </input>
     </>
   )
   
   
+  
+
 
   const randomTweetUserCard = (profilePicURL, UserFullname, username)=>{
     
     return (
     <div className="RandomTweetUserCard">
-      <img src={profilePicURL} alt="user" width={'100dw'} style={{'borderRadius': '50%', float: 'left', MarginLeft: '10px', MarginTop: '10px'}}></img>
-      <strong>{UserFullname}</strong>
-      <button value={username} onClick={()=> handleRemoveUser(username)}>X</button> 
+      <img src={profilePicURL} alt="user" width={'50px'} style={{'borderRadius': '50%', float: 'left', MarginLeft: '10px', MarginTop: '10px', marginBottom: '10px'}}></img>
+      <div>
+        
+          <strong>{UserFullname}</strong>
+        
+        
+          <button type="button" class="close" aria-label="Close" value={username} style={{ alignItems:'end' }} onClick={()=> handleRemoveUser(username)}><span aria-hidden="true">&times;</span></button> 
+        
+      </div>
     </div>
     )
   }

@@ -9,7 +9,7 @@ function RandomTweetPage(props){
     
   }
   else{
-    favoriteUsers = ['lynaldencontact', 'dylanleclair_', 'saylor', 'saifedean', 'elonmusk'];
+    favoriteUsers = ['lexfridman', 'saylor', 'cristiano', 'taylorswift13', 'elonmusk'];
     localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers));
   }
 
@@ -18,24 +18,31 @@ function RandomTweetPage(props){
     favoriteUsersData = JSON.parse(localStorage.getItem('favoriteUsersData'))
   }
   else{
-    favoriteUsersData = [["Michael Saylor⚡️", "https://pbs.twimg.com/profile_images/1485632175932383235/8t0DGo6V_normal.jpg", "saylor"],["Elon Musk", "https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_normal.jpg", "elonmusk"],["Saifedean Ammous", "https://pbs.twimg.com/profile_images/1362635264158552067/CSsOKrBd_normal.jpg", "saifedean"],["Lyn Alden", "https://pbs.twimg.com/profile_images/1521181379677073414/bm4LcJTr_normal.jpg", "lynaldencontact"],["Dylan LeClair 🟠", "https://pbs.twimg.com/profile_images/1635306935078584322/z8C5RB6O_normal.jpg", "dylanleclair_"]];
+    favoriteUsersData = [["Lex Fridman","https://pbs.twimg.com/profile_images/956331551435960322/OaqR8pAB_normal.jpg","lexfridman"],["Michael Saylor⚡️","https://pbs.twimg.com/profile_images/1485632175932383235/8t0DGo6V_normal.jpg","saylor"],["Cristiano Ronaldo","https://pbs.twimg.com/profile_images/1594446880498401282/o4L2z8Ay_normal.jpg","cristiano"],["Taylor Swift","https://pbs.twimg.com/profile_images/1564101520043479043/eJpWqka2_normal.jpg","taylorswift13"],["Elon Musk","https://pbs.twimg.com/profile_images/1590968738358079488/IY9Gx6Ok_normal.jpg","elonmusk"]];
     localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData));
   }
   
+  
+
+
+
 
   let [addUserInputValue, setAddUserInputValue] = useState('')
   let [favoriteUsersDataSTATE, setFavoriteUsersDataSTATE] = useState(favoriteUsersData)
   let [tweetFeed, setTweetFeed] = useState([])
 
-  
+
+
   const handleAddUser = (e) => {
     if (e.keyCode  === 13) {
       retrieveUserTweets(addUserInputValue)
       .then(
         (response)=>{
           try { 
+            
             if(response.length){
               favoriteUsers.push(addUserInputValue)
+              setAddUserInputValue('')
             localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
             localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData))
             updatePage()

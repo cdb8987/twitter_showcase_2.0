@@ -9,10 +9,10 @@ function HomePage(props){
     const page = ( 
     <div className="homePage">
         <h2>
-            
-            <p>This is my Twitter Showcase App.</p>
-            <p>You can search for tweets from your favorite users!</p>
-            <p>...Or just check out a random tweet from one of my favorite users.</p>
+        <h1><u><strong>THE TWEET REPORT</strong></u></h1>
+            <p>Stay <strong>in the know</strong> and <strong>above the fray</strong> with read-only Twitter.  </p>
+            <p>You can search tweets <strong>OR</strong></p>
+            <p>Curate a personal feed with <strong>only your FAVORITE</strong> users.</p>
             
             
         </h2>

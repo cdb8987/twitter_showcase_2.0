@@ -6,12 +6,13 @@ function NavBar(props){  /// takes current selection as prop
     const imgStyle = {
         width: 65
     }
-    const homeButton = (<button onClick={()=> props.setUserPageSelection('homeButton')}><img src={require('../Images/home_icon.png')} alt={'homeButton'} style={imgStyle} /></button>)
+    const homeButton = (<button  onClick={()=> props.setUserPageSelection('homeButton')} style={{fontSize:'large'}}><img src={require('../Images/home_icon.png')} alt={'homeButton'} style={imgStyle} /></button>)
     
-    const searchButton = (<button onClick={()=> props.setUserPageSelection('searchButton')}><img src={require("../Images/search_icon.png")} alt={'searchButton'} style={imgStyle}/></button>)
-    const randomButton = (<button onClick={()=> props.setUserPageSelection('randomButton')}><img src={require("../Images/question_mark_icon.png")} alt={'randomButton'} style={imgStyle}/></button>)
+    const searchButton = (<button  onClick={()=> props.setUserPageSelection('searchButton')} style={{fontSize:'large'}} ><img src={require("../Images/search_icon.png")} alt={'searchButton'} style={imgStyle}/></button>)
+    const randomButton = (<button  onClick={()=> props.setUserPageSelection('randomButton')} style={{fontSize:'large'}}><img src={require("../Images/message_feed_icon.png")} alt={'randomButton'} style={imgStyle}/></button>)
+    
+    
     const navigationBar = (<nav>{[homeButton, searchButton, randomButton]}</nav>)
-
 
 
 

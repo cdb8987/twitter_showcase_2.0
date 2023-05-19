@@ -59,9 +59,9 @@
   text-align: center;
   height: 70vh;
   width: 50%;
-  border-color: black;
+  /* border-color: black;
   border-radius: 25px;
-  border: 1px solid;
+  border: 1px solid; */
   margin-right: 25px;
   margin-left: 50px;
   margin-top:50px;
@@ -161,9 +161,9 @@
 .cardtableinnercontainer{
   height: 90%;
   width:  70%;
-  border-color: black;
-  border: 1px solid;
-  border-radius: 25px;
+  /* border-color: black; */
+  /* border: 1px solid;
+  border-radius: 25px; */
   text-align: center;
   margin:auto;
   margin-top: auto;

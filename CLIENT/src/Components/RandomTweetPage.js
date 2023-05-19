@@ -1,5 +1,5 @@
 import TweetCard from "./TweetCard";
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 
 function RandomTweetPage(props){
@@ -30,10 +30,33 @@ function RandomTweetPage(props){
   
   const handleAddUser = (e) => {
     if (e.keyCode  === 13) {
-      favoriteUsers.push(addUserInputValue)
-      localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
-      localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData))
-      updatePage()
+      retrieveUserTweets(addUserInputValue)
+      .then(
+        (response)=>{
+          try { 
+            if(response.length){
+              favoriteUsers.push(addUserInputValue)
+            localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
+            localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData))
+            updatePage()
+            }
+          }
+          catch (error) {alert('That user does not exist.'); console.log(error)}
+          
+          
+          
+          // if(!response.length > 0){
+          //   alert('user not found');
+          //   return
+          // }
+          // else{
+          //   favoriteUsers.push(addUserInputValue)
+          //   localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
+          //   localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData))
+          //   updatePage()
+          // }
+        }
+      )
     }
   };
 
@@ -167,6 +190,8 @@ function RandomTweetPage(props){
     
   }
 
+
+  useEffect(()=> {updatePage()}, [])
 
  
   return props.userPageSelection === 'randomButton'? <div className="randomTweetPage"><div className="randomTweetPageinnercontainer">{[userBar, cardTableContainer]}</div></div> : null

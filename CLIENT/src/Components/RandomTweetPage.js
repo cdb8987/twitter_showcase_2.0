@@ -35,13 +35,13 @@ function RandomTweetPage(props){
 
   const handleAddUser = (e) => {
     if (e.keyCode  === 13) {
-      retrieveUserTweets(addUserInputValue)
+      retrieveUserTweets(addUserInputValue.replace('@', ''))
       .then(
         (response)=>{
           try { 
             
             if(response.length){
-              favoriteUsers.push(addUserInputValue)
+              favoriteUsers.push(addUserInputValue.replace('@', ''))
               setAddUserInputValue('')
             localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
             localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData))
@@ -86,8 +86,9 @@ function RandomTweetPage(props){
   const addUserInputField = (
     <>
     <p>ADD USER</p>
-    <input className="form-control" type="text" onChange={e=>setAddUserInputValue(e.target.value)} onKeyDown={handleAddUser}>
+    <input className="form-control" type="text" placeholder="ex. @elonmusk"onChange={e=>setAddUserInputValue(e.target.value)} onKeyDown={handleAddUser}>
     </input>
+    
     </>
   )
   
@@ -105,7 +106,8 @@ function RandomTweetPage(props){
           <strong>{UserFullname}</strong>
         
         
-          <button type="button" class="close" aria-label="Close" value={username} style={{ alignItems:'end' }} onClick={()=> handleRemoveUser(username)}><span aria-hidden="true">&times;</span></button> 
+          <button type="button" class="close" aria-label="Close" value={username} style={{ alignItems:'end' }} onClick={()=> handleRemoveUser(username.replace('@', ''))
+            }><span aria-hidden="true">&times;</span></button> 
         
       </div>
     </div>

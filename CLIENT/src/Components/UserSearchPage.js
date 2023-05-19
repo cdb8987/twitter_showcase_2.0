@@ -55,8 +55,10 @@ function UserSearchPage(props){
             getTweets(searchBar)
         }
       };
-      const handleClick = () => {
+      const handleClick = (selection) => {
         console.log(userIsSelected, topicIsSelected)
+        if(selection === 'USER' && userIsSelected){return}
+        if(selection === 'TOPIC' && topicIsSelected){return}
         setUserIsSelected(!userIsSelected);
         setTopicIsSelected(!topicIsSelected);
         sessionStorage.setItem('buttonselectstatus',   `userisselected ${userIsSelected},    topicIsSelected ${topicIsSelected}`)
@@ -69,8 +71,8 @@ function UserSearchPage(props){
     const leftContainer = 
     <div className="usersearchleftcontainer">
         <div className="searchtype">
-            <button type="button" className={userButtonClassName} onClick={handleClick}>USER</button>
-            <button type="button" className={topicButtonClassName} onClick={ handleClick}>TOPIC</button>
+            <button type="button" className={userButtonClassName} onClick={()=>handleClick('USER')}>USER</button>
+            <button type="button" className={topicButtonClassName} onClick={()=> handleClick('TOPIC')}>TOPIC</button>
             <div className="searchInput">
                 <div className="inputdiv">
                     {/* <img src={require('../Images/at_image.png')} width="40px" alt='# or @ sign'></img> */}

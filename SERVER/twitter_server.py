@@ -11,14 +11,14 @@ import os
 
 def create_app():
 
-    app = Flask(__name__, static_folder='build', static_url_path='/')
+    app = Flask(__name__, static_folder='CLIENT/build', static_url_path='/')
     CORS(app)
     # added 3 arguments into the flask instance creation
     #
 
     @app.route("/")
     def index():
-        return send_from_directory('build', 'index.html')
+        return send_from_directory('CLIENT/build', 'index.html')
 
     @app.route("/usertweets")
     def user_tweets():

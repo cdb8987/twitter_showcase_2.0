@@ -48,7 +48,7 @@ function RandomTweetPage(props){
             updatePage()
             }
           }
-          catch (error) {alert('That user does not exist.'); console.log(error)}
+          catch (error) {alert('That user does not exist.')}
           
           
           
@@ -72,10 +72,10 @@ function RandomTweetPage(props){
     favoriteUsers = favoriteUsers.filter(function(e){return e !== username})
     localStorage.setItem('favoriteUsers', JSON.stringify(favoriteUsers))
     for(let i=0; i < favoriteUsersData.length; i++){
-      // console.log(favoriteUsersData[i][2], i)
+      
       if(favoriteUsersData[i][2] === username){
         let toRemove = favoriteUsersData[i]
-        // console.log('to remove: ', toRemove)
+        
         favoriteUsersData = favoriteUsersData.filter(function(e){return e !== toRemove});
         localStorage.setItem('favoriteUsersData', JSON.stringify(favoriteUsersData));
         setFavoriteUsersDataSTATE(favoriteUsersData);
@@ -119,11 +119,10 @@ function RandomTweetPage(props){
   
   let userDataJSXArray = []
   for(let i=0; i < favoriteUsersData.length; i++){
-    console.log('i1 is: ', i[1], 'i0 is: ', i[0])
+    // console.log('i1 is: ', i[1], 'i0 is: ', i[0])
     
     userDataJSXArray.push(randomTweetUserCard(favoriteUsersDataSTATE[i][1], favoriteUsersDataSTATE[i][0], favoriteUsersDataSTATE[i][2]))
   }
-  // console.log('favoriteusers.length: ', favoriteUsersData.length)
   
   const userBar = 
   <div className="RandomTweetuserBar">
@@ -134,13 +133,12 @@ function RandomTweetPage(props){
   let tweetCards=[];
           for(let i=0; i< tweetFeed.length; i++){
               try{
-              console.log('tweet number: ', i, tweetFeed[i])
               let tweetJSX = (
                   <div className="rightContainerOneTweet"><TweetCard tweet={tweetFeed[i]}/></div>
               )
               tweetCards.push(tweetJSX)
               }
-              catch(error){console.log(error)}
+              catch(error){}
           }
 
   const cardTableContainer = (
@@ -149,9 +147,8 @@ function RandomTweetPage(props){
   </div>
   )
 
-  const getJSON = (url, userName)=> {console.log('getJSON ran'); return fetch(url)
+  const getJSON = (url, userName)=> { return fetch(url)
       .then(response => {
-        // console.log("INSIDE getJSON url and username: ", url, userName)
         if (!response.ok) {
           throw new Error('CUSTOM ERROR - JSON/API Request failed')
         };
@@ -174,11 +171,10 @@ function RandomTweetPage(props){
         for(let i=0;i<response.length; i++){
           innerArray.push(response[i]) 
         }
-        // console.log('innerarray', innerArray, 'returned')
         return innerArray
         
       })
-      .catch(error => { console.log(`ERROR! ${error}`) })
+      .catch(error => {})
   }
 
   const retrieveUserTweets = async (userName)=>{ 
@@ -190,12 +186,9 @@ function RandomTweetPage(props){
   }
   
   const updatePage = async ()=> {
-    // for(let i=0;i< favoriteUsers.length; i++){
-    //   console.log('forloopran for ', favoriteUsers[i])
-    //   retrieveUserTweets(favoriteUsers[i])
-    // }
+    
     let arr = Array.from({ length: favoriteUsers.length }, (_, index) => index);
-    let updatedTweets = await Promise.all(arr.map(async (index)=> {console.log(favoriteUsers[index]); console.log('inside map function data is: ',await retrieveUserTweets(favoriteUsers[index])); return await retrieveUserTweets(favoriteUsers[index])}));
+    let updatedTweets = await Promise.all(arr.map(async (index)=> {return await retrieveUserTweets(favoriteUsers[index])}));
     const mergedArray = updatedTweets.reduce((acc, curr) => acc.concat(curr), []);
     const sortedArray = mergedArray.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 

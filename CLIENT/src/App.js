@@ -17,7 +17,7 @@ function App() {
   // let [requestType, setRequestType] = useState('user')
   
   if(!['homeButton', 'searchButton', 'randomButton'].includes(userPageSelection)){
-    console.log('page selected by default')
+    
     return (
       <div className="App">
         <div className="navbar"> <NavBar userPageSelection={userPageSelection} setUserPageSelection={setUserPageSelection}/></div>

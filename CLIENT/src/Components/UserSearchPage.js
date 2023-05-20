@@ -14,7 +14,7 @@ function UserSearchPage(props){
     let [tweetArray, setTweetArray] = useState(dummyData)
     let [missingUserErrorMessage, setMissingUserErrorMessage] = useState('')
 
-    const getJSON = (url)=> {console.log('getJSON ran'); return fetch(url)
+    const getJSON = (url)=> { return fetch(url)
       .then(response => {
         if (!response.ok) {
           throw new Error('CUSTOM ERROR - JSON/API Request failed')
@@ -23,12 +23,12 @@ function UserSearchPage(props){
         return response.json()
       })
       .then(response => {
-        console.log(typeof(response), response)
+        
         setTweetArray(response)
         setMissingUserErrorMessage('')
         // return response
       })
-      .catch(error => { setMissingUserErrorMessage('That User Does Not Exist.  Please check your spelling and try again.'); console.log(`ERROR! ${error}`) })
+      .catch(error => { setMissingUserErrorMessage('That User Does Not Exist.  Please check your spelling and try again.') })
   }
 
     const retrieveUserTweets = (searchString)=>{ 
@@ -56,7 +56,7 @@ function UserSearchPage(props){
         }
       };
       const handleClick = (selection) => {
-        console.log(userIsSelected, topicIsSelected)
+        
         if(selection === 'USER' && userIsSelected){return}
         if(selection === 'TOPIC' && topicIsSelected){return}
         setUserIsSelected(!userIsSelected);
@@ -76,7 +76,7 @@ function UserSearchPage(props){
             <div className="searchInput">
                 <div className="inputdiv">
                     {/* <img src={require('../Images/at_image.png')} width="40px" alt='# or @ sign'></img> */}
-                    <input className="form-control-sm" onChange={(e)=>{setSearchBar(e.target.value); console.log(searchBar)}} onKeyDown={handleKeyPress} type="text" id="inputfield"/>
+                    <input className="form-control-sm" onChange={(e)=>{setSearchBar(e.target.value)}} onKeyDown={handleKeyPress} type="text" id="inputfield"/>
                 </div>
                 <p style={{color: 'red'}}>{missingUserErrorMessage}</p>
             </div>

@@ -2,7 +2,6 @@
 
 function TweetCard(props){ //passing in a tweet object retrieved from flask endpoint
     try{
-    console.log('TweetCard reads', props.tweet)
     const tweet = props.tweet
    const tweetHeader = (
     <>
@@ -25,8 +24,7 @@ function TweetCard(props){ //passing in a tweet object retrieved from flask endp
     </>
    )
    let d = new Date(tweet.created_at)
-   d = String(d)
-   console.log('date is:', d, typeof(d)); 
+   d = String(d) 
    const tweetDate = (
     <>{d}</>
     // <p>{tweet.created_at}</p>
@@ -48,7 +46,7 @@ function TweetCard(props){ //passing in a tweet object retrieved from flask endp
    
    return [tweetHeader, tweetBody, tweetDate, engagementData, tweetMetaData]
     }
-    catch(error){console.log(error); return null}
+    catch(error){ return null}
 
 }
 export default TweetCard

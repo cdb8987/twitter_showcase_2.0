@@ -1,8 +1,7 @@
 
 
 function NavBar(props){  /// takes current selection as prop
-    console.log(props)
-    console.log(props.userPageSelection)
+   
     const imgStyle = {
         width: 65
     }

@@ -10,8 +10,8 @@ import { useEffect, useState } from 'react';
 
 
 function App() {
-  let server_URL = 'http://127.0.0.1:5000'
-  // let server_URL = 'https://twitter-showcase-app-zuot.onrender.com'
+  // let server_URL = 'http://127.0.0.1:5000'
+  let server_URL = 'https://twitter-showcase-app-zuot.onrender.com'
 
   let [userPageSelection, setUserPageSelection] = useState('homePage')
   // let [requestType, setRequestType] = useState('user')

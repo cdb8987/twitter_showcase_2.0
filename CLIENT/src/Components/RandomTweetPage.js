@@ -133,10 +133,14 @@ function RandomTweetPage(props){
 
   let tweetCards=[];
           for(let i=0; i< tweetFeed.length; i++){
+              try{
+              console.log('tweet number: ', i, tweetFeed[i])
               let tweetJSX = (
                   <div className="rightContainerOneTweet"><TweetCard tweet={tweetFeed[i]}/></div>
               )
               tweetCards.push(tweetJSX)
+              }
+              catch(error){console.log(error)}
           }
 
   const cardTableContainer = (

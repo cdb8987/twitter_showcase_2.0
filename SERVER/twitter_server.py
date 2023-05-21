@@ -9,8 +9,9 @@ import os
 
 
 
-def create_app():
 
+def create_app():
+    bearer_token = os.getenv('BEARER_TOKEN')
     app = Flask(__name__, static_folder='../CLIENT/build', static_url_path='/')
     CORS(app)
     # added 3 arguments into the flask instance creation
@@ -35,7 +36,7 @@ def create_app():
         headers = {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            'Authorization': f'Bearer AAAAAAAAAAAAAAAAAAAAAIIchQEAAAAAKC3tUXr5%2FvyR0vHg5jdgZBsX0yY%3D3nsyykRRtBUNd9ulu9hWNcbhImhTCCntzhjgp9b3NPwVPmGPrS',
+            'Authorization': f'Bearer {bearer_token}',
             'Cookie': 'guest_id=v1%3A167858240399952206; guest_id_ads=v1%3A167858240399952206; guest_id_marketing=v1%3A167858240399952206; personalization_id="v1_zp9GphfdVXRQbjHOMkji3A=="'
         }
 

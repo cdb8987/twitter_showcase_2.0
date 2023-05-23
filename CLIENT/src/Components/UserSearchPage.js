@@ -33,7 +33,7 @@ function UserSearchPage(props){
 
     const retrieveUserTweets = (searchString)=>{ 
         
-        const userName = searchString
+        const userName = searchString.replace('@', '')
         const url = `${props.server_URL}/usertweets?username=${userName}`
       
         getJSON(url)
